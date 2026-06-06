@@ -49,9 +49,11 @@ npm run dev
 
 ### Backend (`.env`)
 ```
-OLLAMA_HOST=http://localhost:11434        # Ollama server URL
+OLLAMA_BASE_URL=http://localhost:11434    # Ollama server URL
 MODEL_NAME=qwen2.5:0.5b                  # Model to use
 ```
+
+> The backend also supports `OLLAMA_HOST` for compatibility.
 
 ### Frontend (`.env.local`)
 ```

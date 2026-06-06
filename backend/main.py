@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 # Configuration
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_HOST = os.getenv("OLLAMA_BASE_URL") or os.getenv("OLLAMA_HOST", "http://localhost:11434")
 MODEL_NAME = os.getenv("MODEL_NAME", "qwen2.5:0.5b")
 OLLAMA_TIMEOUT = 300
 DB_PATH = "chat_history.db"
