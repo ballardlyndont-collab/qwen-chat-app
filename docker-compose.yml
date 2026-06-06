@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # FastAPI backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: qwen-chat-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_HOST=${OLLAMA_HOST:-http://host.docker.internal:11434}
+      - MODEL_NAME=${MODEL_NAME:-qwen2.5:0.5b}
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./backend:/app/backend
+    command: python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - ollama
+
+  # Frontend (Vite dev server)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: qwen-chat-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    volumes:
+      - ./src:/app/src
+      - ./index.html:/app/index.html
+      - ./vite.config.ts:/app/vite.config.ts
+    command: npm run dev
+    depends_on:
+      - backend
+
+  # Ollama service (optional - can also connect to local Ollama)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: qwen-chat-ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    volumes:
+      - ollama-data:/root/.ollama
+    command: serve
+
+volumes:
+  ollama-data:
