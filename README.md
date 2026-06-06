@@ -55,8 +55,10 @@ MODEL_NAME=qwen2.5:0.5b                  # Model to use
 
 ### Frontend (`.env.local`)
 ```
-VITE_API_URL=http://localhost:8000       # Backend API URL
+VITE_API_URL=http://localhost:8000       # Backend API URL for local development
 ```
+
+> In production, the frontend is served by Nginx and uses a relative `/api` path by default.
 
 ## Build for Production
 
@@ -85,7 +87,7 @@ git commit -m "Initial commit: Qwen Chat App"
 
 ### Step 2: Create Emergent Labs Configuration
 
-Create `emergent.yml` in root directory:
+Create `emergent.yml` in root directory if Emergent Labs requires an app manifest:
 
 ```yaml
 version: 1
