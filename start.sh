@@ -3,15 +3,15 @@ set -e
 
 echo "Starting Qwen Chat App..."
 
+trap 'kill $NGINX_PID $UVICORN_PID' SIGTERM SIGINT
+
 # Start nginx in background
 nginx -g 'daemon off;' &
 NGINX_PID=$!
 
-# Start FastAPI backend
+# Start FastAPI backend in background
 cd /app
-python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000
+python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
+UVICORN_PID=$!
 
-# Handle SIGTERM
-trap "kill $NGINX_PID" SIGTERM
-
-wait
+wait $UVICORN_PID

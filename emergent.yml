@@ -10,7 +10,7 @@ services:
   app:
     port: 80
     environment:
-      - OLLAMA_HOST=${OLLAMA_HOST}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
       - MODEL_NAME=${MODEL_NAME}
       - PYTHONUNBUFFERED=1
     healthcheck:
